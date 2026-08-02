@@ -8,10 +8,6 @@ function DashboardPage() {
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  useEffect(() => {
-    fetchApplications();
-  }, []);
-
   const fetchApplications = async () => {
     try {
       const response = await getApplications();
@@ -22,6 +18,10 @@ function DashboardPage() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    fetchApplications();
+  }, []);
 
   const handleDelete = async (id) => {
     try {
