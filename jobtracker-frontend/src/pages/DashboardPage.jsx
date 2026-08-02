@@ -17,7 +17,7 @@ function DashboardPage() {
       const response = await getApplications();
       setApplications(response.data);
     } catch (err) {
-      setError('Could not load applications.');
+      setError(err.response?.data?.message || 'Could not load applications.');
     } finally {
       setLoading(false);
     }
@@ -28,7 +28,7 @@ function DashboardPage() {
       await deleteApplication(id);
       setApplications(applications.filter((app) => app.id !== id));
     } catch (err) {
-      setError('Could not delete application.');
+      setError(err.response?.data?.message || 'Could not delete application.');
     }
   };
 
@@ -39,7 +39,7 @@ function DashboardPage() {
       applications.map((app) => (app.id === id ? response.data : app))
     );
   } catch (err) {
-    setError('Could not update status.');
+    setError(err.response?.data?.message || 'Could not update status.');
   }
 };
 
