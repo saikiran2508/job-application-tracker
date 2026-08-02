@@ -1,0 +1,12 @@
+# Backend
+jobtracker/target/
+jobtracker/.idea/
+jobtracker/*.iml
+
+# Frontend
+jobtracker-frontend/node_modules/
+jobtracker-frontend/dist/
+
+# General
+.DS_Store
+*.log

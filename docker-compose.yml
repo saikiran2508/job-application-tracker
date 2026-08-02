@@ -1,0 +1,42 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: jobtracker-db
+    environment:
+      POSTGRES_USER: jobtracker_user
+      POSTGRES_PASSWORD: jobtracker_pass
+      POSTGRES_DB: jobtracker_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - jobtracker-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U jobtracker_user -d jobtracker_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build: ./jobtracker
+    container_name: jobtracker-backend
+    environment:
+      DB_HOST: postgres
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: ./jobtracker-frontend
+      args:
+        VITE_API_URL: http://localhost:8080/api
+    container_name: jobtracker-frontend
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
+
+volumes:
+  jobtracker-data:
