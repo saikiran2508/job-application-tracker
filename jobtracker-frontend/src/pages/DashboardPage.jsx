@@ -20,6 +20,8 @@ function DashboardPage() {
   };
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- fetchApplications is async; 
+    // its setState calls happen after an await, not synchronously within this effect.
     fetchApplications();
   }, []);
 
